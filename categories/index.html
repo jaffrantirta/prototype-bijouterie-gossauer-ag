@@ -674,7 +674,7 @@
         
         // Display products
         function displayProducts(productsToShow) {
-            const grid = document.getElementById('/prototype-bijouterie-gossauer-ag/productsGrid');
+            const grid = document.getElementById('productsGrid');
             grid.innerHTML = '';
             
             // Update grid classes based on current view
@@ -690,7 +690,7 @@
         // Create product card
         function createProductCard(product) {
             const card = document.createElement('div');
-            card.className = '/prototype-bijouterie-gossauer-ag/product-card bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm';
+            card.className = 'product-card bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm';
             
             const stars = '★'.repeat(Math.floor(product.rating)) + '☆'.repeat(5 - Math.floor(product.rating));
             
