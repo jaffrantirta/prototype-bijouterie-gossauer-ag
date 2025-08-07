@@ -1,0 +1,750 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classic Diamond Solitaire - Bijouterie Gossauer AG</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: '#D4AF37',
+                        darkGold: '#B8941F',
+                        lightGold: '#F4E4BC',
+                        charcoal: '#2C2C2C'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+        
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #D4AF37;
+        }
+        
+        .btn-primary {
+            background-color: #D4AF37;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #B8941F;
+        }
+        
+        .btn-secondary {
+            border: 2px solid #D4AF37;
+            color: #D4AF37;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #D4AF37;
+            color: white;
+        }
+        
+        .thumbnail-active {
+            border-color: #D4AF37;
+            border-width: 2px;
+        }
+        
+        .size-option {
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .size-option.active {
+            border-color: #D4AF37;
+            background-color: #F4E4BC;
+        }
+        
+        .quantity-btn {
+            border: 1px solid #d1d5db;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        
+        .quantity-btn:hover {
+            border-color: #D4AF37;
+            color: #D4AF37;
+        }
+        
+        .tab-button {
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            border-bottom-color: #D4AF37;
+            color: #D4AF37;
+        }
+        
+        .review-stars {
+            color: #D4AF37;
+        }
+    </style>
+</head>
+<body class="font-inter bg-white text-charcoal">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <h1 class="font-playfair text-2xl font-bold text-gold cursor-pointer" onclick="goHome()">Bijouterie Gossauer AG</h1>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="text-charcoal hover:text-gold transition-colors font-medium">Home</a>
+                    <a href="#" class="text-charcoal hover:text-gold transition-colors font-medium">Collections</a>
+                    <a href="#" class="text-charcoal hover:text-gold transition-colors font-medium">About</a>
+                    <a href="#" class="text-charcoal hover:text-gold transition-colors font-medium">Contact</a>
+                </nav>
+                
+                <!-- Search and Actions -->
+                <div class="flex items-center space-x-4">
+                    <!-- Search -->
+                    <div class="relative hidden sm:block">
+                        <input type="text" placeholder="Search jewelry..." 
+                               class="search-input w-64 px-4 py-2 border border-gray-200 rounded-full text-sm focus:border-gold">
+                        <button class="absolute right-3 top-2.5 text-gray-400 hover:text-gold">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Login Button -->
+                    <button class="text-charcoal hover:text-gold transition-colors font-medium">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                    </button>
+                    
+                    <!-- Cart Button -->
+                    <a href="/cart" class="relative text-charcoal hover:text-gold transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"></path>
+                        </svg>
+                        <span class="absolute -top-2 -right-2 bg-gold text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">2</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="bg-gray-50 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex text-sm">
+                <a href="#" class="text-gray-500 hover:text-gold transition-colors">Home</a>
+                <span class="mx-2 text-gray-400">/</span>
+                <a href="#" class="text-gray-500 hover:text-gold transition-colors">Rings</a>
+                <span class="mx-2 text-gray-400">/</span>
+                <span class="text-charcoal font-medium">Classic Diamond Solitaire</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Product Detail -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Product Images -->
+            <div class="space-y-4">
+                <!-- Main Image -->
+                <div class="aspect-square bg-lightGold rounded-lg flex items-center justify-center">
+                    <svg id="mainImage" class="w-32 h-32 text-gold" fill="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                    </svg>
+                </div>
+                
+                <!-- Thumbnail Images -->
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="aspect-square bg-lightGold rounded-lg border-2 thumbnail-active cursor-pointer flex items-center justify-center" onclick="changeMainImage(this)">
+                        <svg class="w-8 h-8 text-gold" fill="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                        </svg>
+                    </div>
+                    <div class="aspect-square bg-lightGold rounded-lg border-2 border-gray-200 cursor-pointer flex items-center justify-center" onclick="changeMainImage(this)">
+                        <svg class="w-8 h-8 text-gold" fill="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                        </svg>
+                    </div>
+                    <div class="aspect-square bg-lightGold rounded-lg border-2 border-gray-200 cursor-pointer flex items-center justify-center" onclick="changeMainImage(this)">
+                        <svg class="w-8 h-8 text-gold" fill="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                        </svg>
+                    </div>
+                    <div class="aspect-square bg-lightGold rounded-lg border-2 border-gray-200 cursor-pointer flex items-center justify-center" onclick="changeMainImage(this)">
+                        <svg class="w-8 h-8 text-gold" fill="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product Information -->
+            <div class="space-y-6">
+                <!-- Product Title and Rating -->
+                <div>
+                    <h1 class="font-playfair text-3xl font-bold text-charcoal mb-2">Classic Diamond Solitaire Ring</h1>
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div class="flex items-center">
+                            <div class="flex review-stars text-lg">
+                                ★★★★★
+                            </div>
+                            <span class="text-gray-600 ml-2">(24 reviews)</span>
+                        </div>
+                        <span class="text-gray-400">|</span>
+                        <span class="text-gray-600">SKU: LJ-DS-001</span>
+                    </div>
+                    <p class="text-3xl font-bold text-gold mb-6">$2,499</p>
+                </div>
+                
+                <!-- Product Description -->
+                <div>
+                    <p class="text-gray-700 leading-relaxed">
+                        This timeless classic diamond solitaire ring features a brilliant 1-carat round diamond set in 18K white gold. 
+                        The elegant six-prong setting maximizes the diamond's brilliance while ensuring security. Perfect for engagements 
+                        or as a statement piece, this ring embodies sophistication and eternal beauty.
+                    </p>
+                </div>
+                
+                <!-- Product Specifications -->
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h3 class="font-semibold text-charcoal mb-4">Specifications</h3>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <span class="text-gray-600">Metal:</span>
+                            <span class="font-medium ml-2">18K White Gold</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">Diamond Weight:</span>
+                            <span class="font-medium ml-2">1.0 Carat</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">Diamond Cut:</span>
+                            <span class="font-medium ml-2">Round Brilliant</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">Diamond Clarity:</span>
+                            <span class="font-medium ml-2">VS1</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">Diamond Color:</span>
+                            <span class="font-medium ml-2">G</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">Setting Style:</span>
+                            <span class="font-medium ml-2">Six-Prong</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Size Selection -->
+                <div>
+                    <h3 class="font-semibold text-charcoal mb-3">Ring Size</h3>
+                    <div class="grid grid-cols-4 gap-3">
+                        <button class="size-option px-4 py-2 rounded-lg text-center font-medium" onclick="selectSize(this, '5')">5</button>
+                        <button class="size-option px-4 py-2 rounded-lg text-center font-medium" onclick="selectSize(this, '5.5')">5.5</button>
+                        <button class="size-option px-4 py-2 rounded-lg text-center font-medium active" onclick="selectSize(this, '6')">6</button>
+                        <button class="size-option px-4 py-2 rounded-lg text-center font-medium" onclick="selectSize(this, '6.5')">6.5</button>
+                        <button class="size-option px-4 py-2 rounded-lg text-center font-medium" onclick="selectSize(this, '7')">7</button>
+                        <button class="size-option px-4 py-2 rounded-lg text-center font-medium" onclick="selectSize(this, '7.5')">7.5</button>
+                        <button class="size-option px-4 py-2 rounded-lg text-center font-medium" onclick="selectSize(this, '8')">8</button>
+                        <button class="size-option px-4 py-2 rounded-lg text-center font-medium" onclick="selectSize(this, '8.5')">8.5</button>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">
+                        <a href="#" class="text-gold hover:text-darkGold">Need help finding your size?</a>
+                    </p>
+                </div>
+                
+                <!-- Quantity -->
+                <div>
+                    <h3 class="font-semibold text-charcoal mb-3">Quantity</h3>
+                    <div class="flex items-center space-x-3">
+                        <button class="quantity-btn w-10 h-10 rounded-lg flex items-center justify-center" onclick="changeQuantity(-1)">-</button>
+                        <span id="quantity" class="px-4 py-2 border border-gray-200 rounded-lg min-w-16 text-center">1</span>
+                        <button class="quantity-btn w-10 h-10 rounded-lg flex items-center justify-center" onclick="changeQuantity(1)">+</button>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="space-y-4">
+                    <button class="w-full btn-primary py-4 rounded-lg font-semibold text-lg" onclick="addToCart()">
+                        Add to Cart - $2,499
+                    </button>
+                    <button class="w-full btn-secondary py-4 rounded-lg font-semibold text-lg" onclick="addToWishlist()">
+                        Add to Wishlist ♡
+                    </button>
+                </div>
+                
+                <!-- Additional Options -->
+                <div class="border-t pt-6 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-700">Free shipping on orders over $1,000</span>
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-700">30-day return policy</span>
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-700">Lifetime warranty included</span>
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Product Details Tabs -->
+        <div class="mt-16">
+            <div class="border-b border-gray-200">
+                <nav class="flex space-x-8">
+                    <button class="tab-button py-4 px-1 font-medium active" onclick="showTab('description')">Description</button>
+                    <button class="tab-button py-4 px-1 font-medium" onclick="showTab('specifications')">Specifications</button>
+                    <button class="tab-button py-4 px-1 font-medium" onclick="showTab('reviews')">Reviews (24)</button>
+                    <button class="tab-button py-4 px-1 font-medium" onclick="showTab('care')">Care Instructions</button>
+                </nav>
+            </div>
+            
+            <!-- Tab Content -->
+            <div class="py-8">
+                <!-- Description Tab -->
+                <div id="description-tab" class="tab-content">
+                    <div class="prose max-w-none">
+                        <h3 class="font-playfair text-2xl font-semibold text-charcoal mb-4">Product Description</h3>
+                        <p class="text-gray-700 mb-4">
+                            Our Classic Diamond Solitaire Ring represents the pinnacle of timeless elegance. Crafted with meticulous attention to detail, 
+                            this ring features a stunning 1-carat round brilliant diamond that captures and reflects light from every angle.
+                        </p>
+                        <p class="text-gray-700 mb-4">
+                            The diamond is expertly set in a six-prong setting made from premium 18K white gold, ensuring both security and maximum 
+                            light exposure for optimal brilliance. The band features a classic comfort-fit design that sits beautifully on the finger.
+                        </p>
+                        <p class="text-gray-700">
+                            Each diamond is hand-selected for its exceptional quality, featuring VS1 clarity and G color grade. This ring comes with 
+                            a certificate of authenticity and is perfect for engagements, anniversaries, or as a treasured addition to any jewelry collection.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Specifications Tab -->
+                <div id="specifications-tab" class="tab-content hidden">
+                    <h3 class="font-playfair text-2xl font-semibold text-charcoal mb-6">Detailed Specifications</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-semibold text-charcoal mb-3">Diamond Details</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Carat Weight:</span>
+                                    <span class="font-medium">1.0 ct</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Cut:</span>
+                                    <span class="font-medium">Round Brilliant</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Color:</span>
+                                    <span class="font-medium">G (Near Colorless)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Clarity:</span>
+                                    <span class="font-medium">VS1 (Very Slightly Included)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Certification:</span>
+                                    <span class="font-medium">GIA Certified</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-charcoal mb-3">Ring Details</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Metal:</span>
+                                    <span class="font-medium">18K White Gold</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Setting Style:</span>
+                                    <span class="font-medium">Six-Prong Solitaire</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Band Width:</span>
+                                    <span class="font-medium">2.0mm</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Profile:</span>
+                                    <span class="font-medium">Comfort Fit</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Available Sizes:</span>
+                                    <span class="font-medium">5 - 8.5</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reviews Tab -->
+                <div id="reviews-tab" class="tab-content hidden">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="font-playfair text-2xl font-semibold text-charcoal">Customer Reviews</h3>
+                        <button class="btn-primary px-6 py-2 rounded-lg font-semibold">Write a Review</button>
+                    </div>
+                    
+                    <!-- Review Summary -->
+                    <div class="bg-gray-50 rounded-lg p-6 mb-8">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="text-4xl font-bold text-gold">4.8</div>
+                            <div>
+                                <div class="flex review-stars text-xl mb-1">★★★★★</div>
+                                <p class="text-gray-600">Based on 24 reviews</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm w-8">5★</span>
+                                <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                    <div class="bg-gold h-2 rounded-full" style="width: 83%"></div>
+                                </div>
+                                <span class="text-sm text-gray-600">20</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm w-8">4★</span>
+                                <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                    <div class="bg-gold h-2 rounded-full" style="width: 17%"></div>
+                                </div>
+                                <span class="text-sm text-gray-600">4</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm w-8">3★</span>
+                                <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                    <div class="bg-gold h-2 rounded-full" style="width: 0%"></div>
+                                </div>
+                                <span class="text-sm text-gray-600">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Individual Reviews -->
+                    <div class="space-y-6">
+                        <div class="border-b border-gray-200 pb-6">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center text-white font-semibold">
+                                    S
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <h4 class="font-semibold">Sarah M.</h4>
+                                        <div class="flex review-stars text-sm">★★★★★</div>
+                                        <span class="text-gray-500 text-sm">2 weeks ago</span>
+                                    </div>
+                                    <p class="text-gray-700">
+                                        Absolutely stunning ring! The diamond is brilliant and catches the light beautifully. 
+                                        The quality is exceptional and it fits perfectly. Couldn't be happier with my purchase.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="border-b border-gray-200 pb-6">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center text-white font-semibold">
+                                    M
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <h4 class="font-semibold">Michael R.</h4>
+                                        <div class="flex review-stars text-sm">★★★★★</div>
+                                        <span class="text-gray-500 text-sm">1 month ago</span>
+                                    </div>
+                                    <p class="text-gray-700">
+                                        Perfect engagement ring! My fiancée loves it. The craftsmanship is top-notch and 
+                                        the customer service was excellent. Highly recommend Bijouterie Gossauer AG.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Care Instructions Tab -->
+                <div id="care-tab" class="tab-content hidden">
+                    <h3 class="font-playfair text-2xl font-semibold text-charcoal mb-6">Care Instructions</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-semibold text-charcoal mb-3">Daily Care</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li>• Remove before swimming, showering, or exercising</li>
+                                <li>• Store in a soft cloth pouch when not wearing</li>
+                                <li>• Avoid contact with lotions, perfumes, and chemicals</li>
+                                <li>• Clean gently with a soft brush and mild soap</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-charcoal mb-3">Professional Maintenance</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li>• Professional cleaning every 6 months</li>
+                                <li>• Annual inspection of prongs and setting</li>
+                                <li>• Rhodium plating refresh as needed</li>
+                                <li>• Insurance appraisal every 2-3 years</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Related Products -->
+        <div class="mt-16">
+            <h3 class="font-playfair text-3xl font-bold text-charcoal mb-8 text-center">You May Also Like</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Related Product 1 -->
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm cursor-pointer hover:shadow-md transition-shadow">
+                    <div class="aspect-square bg-lightGold flex items-center justify-center">
+                        <svg class="w-12 h-12 text-gold" fill="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                        </svg>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-playfair text-lg font-semibold text-charcoal mb-1">Vintage Diamond Band</h4>
+                        <p class="text-gray-600 text-sm mb-2">14K Yellow Gold</p>
+                        <p class="text-xl font-bold text-gold">$1,299</p>
+                    </div>
+                </div>
+                
+                <!-- Related Product 2 -->
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm cursor-pointer hover:shadow-md transition-shadow">
+                    <div class="aspect-square bg-lightGold flex items-center justify-center">
+                        <svg class="w-12 h-12 text-gold" fill="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                        </svg>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-playfair text-lg font-semibold text-charcoal mb-1">Three Stone Ring</h4>
+                        <p class="text-gray-600 text-sm mb-2">Platinum</p>
+                        <p class="text-xl font-bold text-gold">$3,899</p>
+                    </div>
+                </div>
+                
+                <!-- Related Product 3 -->
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm cursor-pointer hover:shadow-md transition-shadow">
+                    <div class="aspect-square bg-lightGold flex items-center justify-center">
+                        <svg class="w-12 h-12 text-gold" fill="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                        </svg>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-playfair text-lg font-semibold text-charcoal mb-1">Halo Engagement Ring</h4>
+                        <p class="text-gray-600 text-sm mb-2">18K Rose Gold</p>
+                        <p class="text-xl font-bold text-gold">$2,199</p>
+                    </div>
+                </div>
+                
+                <!-- Related Product 4 -->
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm cursor-pointer hover:shadow-md transition-shadow">
+                    <div class="aspect-square bg-lightGold flex items-center justify-center">
+                        <svg class="w-12 h-12 text-gold" fill="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                        </svg>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-playfair text-lg font-semibold text-charcoal mb-1">Princess Cut Ring</h4>
+                        <p class="text-gray-600 text-sm mb-2">14K White Gold</p>
+                        <p class="text-xl font-bold text-gold">$2,799</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal text-white py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Brand -->
+                <div class="col-span-1 md:col-span-2">
+                    <h4 class="font-playfair text-2xl font-bold text-gold mb-4">Bijouterie Gossauer AG</h4>
+                    <p class="text-gray-300 mb-6 max-w-md">
+                        Creating timeless pieces that celebrate life's most precious moments. Each piece is crafted with passion and attention to detail.
+                    </p>
+                    
+                    <!-- Social Media -->
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-gold transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-gold transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-gold transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-gold transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Contact Info -->
+                <div>
+                    <h5 class="font-semibold text-lg mb-4">Visit Our Store</h5>
+                    <div class="text-gray-300 space-y-2">
+                        <p>123 Luxury Avenue</p>
+                        <p>Beverly Hills, CA 90210</p>
+                        <p>United States</p>
+                        <p class="mt-4">
+                            <span class="block">Phone: (555) 123-4567</span>
+                            <span class="block">Email: info@luxejewelry.com</span>
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Store Hours -->
+                <div>
+                    <h5 class="font-semibold text-lg mb-4">Store Hours</h5>
+                    <div class="text-gray-300 space-y-2">
+                        <p>Monday - Friday: 10am - 7pm</p>
+                        <p>Saturday: 10am - 6pm</p>
+                        <p>Sunday: 12pm - 5pm</p>
+                        <p class="mt-4 text-gold">
+                            Private appointments available
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Bijouterie Gossauer AG. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentQuantity = 1;
+        let selectedSize = '6';
+        
+        // Change main image when thumbnail is clicked
+        function changeMainImage(thumbnail) {
+            // Remove active class from all thumbnails
+            document.querySelectorAll('.aspect-square').forEach(thumb => {
+                thumb.classList.remove('thumbnail-active');
+                thumb.classList.add('border-gray-200');
+            });
+            
+            // Add active class to clicked thumbnail
+            thumbnail.classList.add('thumbnail-active');
+            thumbnail.classList.remove('border-gray-200');
+            
+            alert('Image view changed!');
+        }
+        
+        // Select ring size
+        function selectSize(button, size) {
+            // Remove active class from all size buttons
+            document.querySelectorAll('.size-option').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Add active class to selected button
+            button.classList.add('active');
+            selectedSize = size;
+            
+            console.log('Selected size:', size);
+        }
+        
+        // Change quantity
+        function changeQuantity(change) {
+            const newQuantity = currentQuantity + change;
+            if (newQuantity >= 1) {
+                currentQuantity = newQuantity;
+                document.getElementById('quantity').textContent = currentQuantity;
+            }
+        }
+        
+        // Add to cart
+        function addToCart() {
+            alert(`Added ${currentQuantity} Classic Diamond Solitaire Ring (Size ${selectedSize}) to cart!`);
+        }
+        
+        // Add to wishlist
+        function addToWishlist() {
+            alert('Added to wishlist! ♡');
+        }
+        
+        // Show tab content
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            
+            // Add active class to clicked tab button
+            event.target.classList.add('active');
+        }
+        
+        // Go home function
+        function goHome() {
+            window.location.href = '/'
+        }
+        
+        // Search functionality
+        document.querySelector('.search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                alert(`Searching for: ${this.value}`);
+            }
+        });
+        
+        // Related product clicks
+        document.querySelectorAll('.grid .cursor-pointer').forEach(product => {
+            product.addEventListener('click', function() {
+                const productName = this.querySelector('h4').textContent;
+                alert(`Opening product: ${productName}`);
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96b3104926a42a84',t:'MTc1NDUzMDgwMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
