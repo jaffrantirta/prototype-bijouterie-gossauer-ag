@@ -335,7 +335,7 @@
         // Add hover effects for product cards
         document.querySelectorAll('.product-card').forEach(card => {
             card.addEventListener('click', function() {
-                window.location.href = '/product';
+                window.location.href = 'product';
             });
         });
         
@@ -343,14 +343,14 @@
         document.querySelectorAll('.category-card').forEach(card => {
             card.addEventListener('click', function() {
                 const category = this.querySelector('h4').textContent;
-                window.location.href = '/categories';
+                window.location.href = 'categories';
             });
         });
         
         // Search functionality
         document.querySelector('.search-input').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                window.location.href = '/search?q=' + this.value;
+                window.location.href = 'search?q=' + this.value;
             }
         });
         
